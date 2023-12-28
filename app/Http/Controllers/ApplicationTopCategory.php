@@ -26,14 +26,18 @@ class ApplicationTopCategory extends Controller
         $formattedDate = Carbon::createFromFormat('Y-m-d', $onDate);
         $currentDate = Carbon::createFromFormat('Y-m-d', now()->format('Y-m-d'));
 
-        $applicationData = $this->getDataFromDB($onDate);
+        if ($formattedDate->diffInDays($currentDate, false) > 30) {
+            return response()->json(['errors' => 'Данные доступны за последние 30 дней'], options: JSON_UNESCAPED_UNICODE);
+        }
 
+        $applicationData = $this->getDataFromDB($onDate);
 
         if ($applicationData && $formattedDate->lt($currentDate)) {
             return response()->json(['status_code' => 200, 'message' => 'ok', 'data' => $applicationData]);
         }
 
         $applicationData = $this->getDataFromApi($onDate);
+
         $dataToInsert = [];
         $dataToReturn = [];
 
@@ -46,6 +50,7 @@ class ApplicationTopCategory extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
             $dataToReturn[$categoryId] = $minPosition;
         }
 

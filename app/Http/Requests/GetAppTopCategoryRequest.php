@@ -45,15 +45,13 @@ class GetAppTopCategoryRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        $headers = ['Content-Type' => 'application/json; charset=utf-8'];
 
         throw new HttpResponseException(response()->json(
             [
                 'errors' => $validator->errors()->first()
             ],
             422,
-            $headers,
-            JSON_UNESCAPED_UNICODE)
+            options: JSON_UNESCAPED_UNICODE)
         );
     }
 }
