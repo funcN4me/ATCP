@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\getAppTopCategoryRequest;
+use App\Http\Requests\GetAppTopCategoryRequest;
 use App\Models\ApplicationData;
 use Carbon\Carbon;
 use Error;
@@ -19,7 +19,7 @@ class ApplicationTopCategory extends Controller
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getAppTopCategory(getAppTopCategoryRequest $request): JsonResponse
+    public function getAppTopCategory(GetAppTopCategoryRequest $request): JsonResponse
     {
         $request = $request->input();
         $onDate = $request['date'];
